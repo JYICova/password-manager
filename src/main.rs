@@ -7,6 +7,12 @@ use argon2::{
 };
 
 fn main() {
+    let password: &[u8; 8] = b"hunter42";
+    let salt: SaltString = SaltString::generate(&mut OsRng);
+
+    println!("{:?}", password);
+    println!("{}", salt);
+
     println!("Hello, world!");
     let x = 5;
     println!("The value of x is: {x}");
