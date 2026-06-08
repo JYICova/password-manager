@@ -1,26 +1,27 @@
 mod auth;
-use std::io;
+mod input;
 
 fn main() {
-    let user_input: String = get_user_input();
-    println!("Entered Password: {}", user_input);
+    // Login or Create Account (only if at least 1 username exists)
 
-    let password: &[u8] = user_input.trim().as_bytes();
-    // let salt: SaltString = SaltString::generate(&mut OsRng);
+    // Login (Selected)
+    // Select Username
+    // Enter Password
+
+    // Create Account
+    // Enter Username
+    // Enter New Password
+
+
+    let user_input: String = input::get_user_input();
+
+    let password: &str = user_input
+                            .trim();
 
     let hash: Result<String, argon2::password_hash::Error> = auth::hash_password(password);
 
     println!("Password Binary: {:?}", password);
     println!("Hash: {:?}", hash);
-}
-
-fn get_user_input() -> String {
-    let mut user_input = String::new();
-    io::stdin()
-        .read_line(&mut user_input)
-        .expect("Failed to read line");
-    
-    return user_input
 }
 
 
