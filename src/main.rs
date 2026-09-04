@@ -1,8 +1,42 @@
+use std::println;
+
+use crate::login::get_menu_choice;
+use crate::login::initialise_table;
+use crate::login::show_users_table;
+use crate::login::table_exist;
+use crate::login::MenuChoice;
+
+
+
 mod auth;
 mod input;
+mod login;
+use rusqlite::{Connection, Result};
 
-fn main() {
+fn main() -> Result<()>{
     // Login or Create Account (only if at least 1 username exists)
+    let table_name: &str = "users";
+    let connection: Connection = Connection::open("app.db")?;
+
+    if table_exist(&connection, table_name)? {
+        println!("Loading...")
+    } else {
+        println!("Initialising Database...");
+        initialise_table(&connection)?;
+    }
+
+    let menu_choice: MenuChoice = get_menu_choice();
+    if menu_choice == MenuChoice::Login{
+        // login()
+    } else if menu_choice == MenuChoice::CreateAccount {
+        // create_account
+    } else if menu_choice == MenuChoice::Exit {
+        // exit()
+    } else {
+        // try_again()
+    };
+
+            
 
     // Login (Selected)
     // Select Username
@@ -11,17 +45,20 @@ fn main() {
     // Create Account
     // Enter Username
     // Enter New Password
+    
+    show_users_table(&connection)?;
+    Ok(())
 
 
-    let user_input: String = input::get_user_input();
+    // let user_input: String = input::get_user_input();
 
-    let password: &str = user_input
-                            .trim();
+    // let password: &str = user_input
+    //                         .trim();
 
-    let hash: Result<String, argon2::password_hash::Error> = auth::hash_password(password);
+    // let hash: Result<String, argon2::password_hash::Error> = auth::hash_password(password);
 
-    println!("Password Binary: {:?}", password);
-    println!("Hash: {:?}", hash);
+    // println!("Password: {:?}", password);
+    // println!("Hash: {:?}", hash);
 }
 
 
