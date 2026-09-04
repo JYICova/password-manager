@@ -1,10 +1,14 @@
 use std::println;
 
-use crate::login::get_menu_choice;
-use crate::login::initialise_table;
-use crate::login::show_users_table;
-use crate::login::table_exist;
-use crate::login::MenuChoice;
+use crate::login::{
+    create_account,
+    get_menu_choice,
+    initialise_table,
+    show_users_table,
+    table_exist,
+    MenuChoice,
+};
+
 
 
 
@@ -29,7 +33,7 @@ fn main() -> Result<()>{
     if menu_choice == MenuChoice::Login{
         // login()
     } else if menu_choice == MenuChoice::CreateAccount {
-        // create_account
+        create_account(&connection);
     } else if menu_choice == MenuChoice::Exit {
         // exit()
     } else {

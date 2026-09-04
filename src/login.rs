@@ -1,6 +1,7 @@
 use rusqlite::{Connection, Result};
 use std::{io::{self, Write}, println};
-use crate::input::get_user_input;
+use crate::input::{add_user_to_table, get_user_input};
+use crate::auth::hash_password;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum MenuChoice {
@@ -10,19 +11,31 @@ pub enum MenuChoice {
     Invalid,
 }
 
-// pub fn create_account() -> Result {
-//     // Enter Username
-//     // Validation
-//     // Create Profile
-//     // Main Program
-// }
+pub fn create_account(connection: &Connection) -> Result<()> {
+    // Enter Username
+    println!("Enter your new username:");
+    let username: String = get_user_input();
+
+    println!("Enter your new password:");
+    let password_text: String = get_user_input();
+    let password_hash: String = hash_password(password_text.trim());
+
+    // Validation
+    // Create Profile
+    add_user_to_table(connection, username.trim(), &password_hash);
+    // Main Program
+    Ok(())
+}
+
+
 
 pub fn initialise_table(connection: &Connection) -> Result<()> {
 
     let query = "
         CREATE TABLE IF NOT EXISTS users 
         (userID integer primary key autoincrement, 
-        username TEXT, passwordHash TEXT
+        username TEXT NOT NULL UNIQUE, 
+        passwordHash TEXTNOT NULL
         );
         -- INSERT INTO users VALUES ('Alice', 42);
         -- INSERT INTO users VALUES ('Bob', 69);
