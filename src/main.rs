@@ -33,7 +33,7 @@ fn main() -> Result<()>{
     if menu_choice == MenuChoice::Login{
         // login()
     } else if menu_choice == MenuChoice::CreateAccount {
-        create_account(&connection);
+        create_account(&connection)?;
     } else if menu_choice == MenuChoice::Exit {
         // exit()
     } else {

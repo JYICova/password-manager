@@ -13,7 +13,7 @@ pub fn get_user_input() -> String {
 
 pub fn add_user_to_table(connection: &Connection, username: &str, password_hash: &str) -> Result<()>{
     connection.execute(
-        "INSERT INTO users (username, password_hash)
+        "INSERT INTO users (username, passwordHash)
         VALUES (?1, ?2)
         ", 
         (username, password_hash),

@@ -18,11 +18,13 @@ pub fn create_account(connection: &Connection) -> Result<()> {
 
     println!("Enter your new password:");
     let password_text: String = get_user_input();
-    let password_hash: String = hash_password(password_text.trim());
+    let password_hash: String = hash_password(password_text.trim()).expect("Failed to hash password");
 
+    println!("Password Hash: {}", password_hash);
     // Validation
     // Create Profile
-    add_user_to_table(connection, username.trim(), &password_hash);
+    add_user_to_table(connection, username.trim(), &password_hash)?;
+    println!("{} username added", username);
     // Main Program
     Ok(())
 }
