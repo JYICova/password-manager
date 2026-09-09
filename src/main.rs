@@ -1,23 +1,16 @@
 use std::println;
 
 use crate::login::{
-    create_account,
-    get_menu_choice,
-    initialise_table,
-    show_users_table,
-    table_exist,
-    MenuChoice,
+    AuthError, MenuChoice, create_account, get_menu_choice, initialise_table, login,
+    show_users_table, table_exist,
 };
-
-
-
 
 mod auth;
 mod input;
 mod login;
 use rusqlite::{Connection, Result};
 
-fn main() -> Result<()>{
+fn main() -> Result<(), AuthError> {
     // Login or Create Account (only if at least 1 username exists)
     let table_name: &str = "users";
     let connection: Connection = Connection::open("app.db")?;
@@ -30,8 +23,9 @@ fn main() -> Result<()>{
     }
 
     let menu_choice: MenuChoice = get_menu_choice();
-    if menu_choice == MenuChoice::Login{
-        // login()
+
+    if menu_choice == MenuChoice::Login {
+        login(&connection)?;
     } else if menu_choice == MenuChoice::CreateAccount {
         create_account(&connection)?;
     } else if menu_choice == MenuChoice::Exit {
@@ -40,8 +34,6 @@ fn main() -> Result<()>{
         // try_again()
     };
 
-            
-
     // Login (Selected)
     // Select Username
     // Enter Password
@@ -49,10 +41,9 @@ fn main() -> Result<()>{
     // Create Account
     // Enter Username
     // Enter New Password
-    
+
     show_users_table(&connection)?;
     Ok(())
-
 
     // let user_input: String = input::get_user_input();
 
@@ -64,5 +55,3 @@ fn main() -> Result<()>{
     // println!("Password: {:?}", password);
     // println!("Hash: {:?}", hash);
 }
-
-
